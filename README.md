@@ -93,11 +93,43 @@ To demonstrate the practical application of randomized SVD, we performed image c
 
 Below are comparison images showing original images alongside their rank-50 SVD reconstructions:
 
-1. ![Image Comparison 1](https://ibb.co/4w8Hvjkn)
-2. ![Image Comparison 2](https://ibb.co/7d3STLWK)
-3. ![Image Comparison 3](https://ibb.co/Rp9B81Qn)
-4. ![Image Comparison 4](https://ibb.co/d8rggGn)
-5. ![Image Comparison 5](https://ibb.co/k610JM95)
-6. ![Image Comparison 6](https://ibb.co/tTfwHg6q)
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://i.ibb.co/8LymRt59/canyon-svdk-50.png" alt="Canyon Reconstruction" width="400"/>
+      <br/>
+      <em>Figure 1: Canyon - Deterministic Rank-50 Reconstruction</em>
+    </td>
+    <td align="center">
+      <img src="https://i.ibb.co/HLtjwrZf/canyon-randsvd-50.png" alt="canyon-randsvd-50" width="400" border="0">
+      <br/>
+      <em>Figure 2: Canyon - Random Rank-50 Reconstruction</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://i.ibb.co/jnTRRg7/pelican-svdk-50.png" alt="Image Reconstruction 3" width="400"/>
+      <br/>
+      <em>Figure 3: Pelican - Deterministic Rank-50 Reconstruction</em>
+    </td>
+    <td align="center">
+      <img src="https://i.ibb.co/QFfC0ZYB/pelican-randsvd-50.png" alt="Image Reconstruction 4" width="400"/>
+      <br/>
+      <em>Figure 4: Pelican - Random Rank-50 Reconstruction</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://i.ibb.co/FLvkh215/superkids-svdk-50.png" alt="Image Reconstruction 5" width="400"/>
+      <br/>
+      <em>Figure 5: Super Kids - Determintic Rank-50 Reconstruction</em>
+    </td>
+    <td align="center">
+      <img src="https://i.ibb.co/Z1mKSNYG/superkids-randsvd-50.png" alt="Image Reconstruction 6" width="400"/>
+      <br/>
+      <em>Figure 6: Super Kids - Random Rank-50 Reconstruction</em>
+    </td>
+  </tr>
+</table>
 
 The rank-50 approximations capture the essential visual features of the original images while using only 50 singular values instead of the full rank. This demonstrates how SVD can be used for effective image compression, reducing storage requirements while maintaining high visual quality. The randomized SVD algorithm produces nearly identical results to the deterministic approach, validating its effectiveness for real-world applications.
