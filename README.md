@@ -84,3 +84,20 @@ k=30 | rand_err=0.000000 | det_err=0.000000 | rel_err=0.00%
 ```
 
 As shown, the relative error between the randomized SVD approximation and the best-rank `k` deterministic approximation is virtually zero. This confirms the high accuracy of the implementation.
+
+## Image Reconstruction Comparison
+
+To demonstrate the practical application of randomized SVD, we performed image compression experiments using rank-50 approximations. The results show that randomized SVD produces visually identical reconstructions to the deterministic SVD, while being significantly faster for large images.
+
+### Rank-50 Reconstruction Results
+
+Below are comparison images showing original images alongside their rank-50 SVD reconstructions:
+
+1. ![Image Comparison 1](https://ibb.co/4w8Hvjkn)
+2. ![Image Comparison 2](https://ibb.co/7d3STLWK)
+3. ![Image Comparison 3](https://ibb.co/Rp9B81Qn)
+4. ![Image Comparison 4](https://ibb.co/d8rggGn)
+5. ![Image Comparison 5](https://ibb.co/k610JM95)
+6. ![Image Comparison 6](https://ibb.co/tTfwHg6q)
+
+The rank-50 approximations capture the essential visual features of the original images while using only 50 singular values instead of the full rank. This demonstrates how SVD can be used for effective image compression, reducing storage requirements while maintaining high visual quality. The randomized SVD algorithm produces nearly identical results to the deterministic approach, validating its effectiveness for real-world applications.
