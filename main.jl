@@ -2,7 +2,35 @@ using LinearAlgebra
 using Random
 using Printf
 
-function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=2)
+"""
+    random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=2)
+
+Compute an orthonormal basis for the range of matrix `A` using randomized sampling.
+
+This function implements the randomized range finder algorithm, which constructs an
+approximate orthonormal basis for the column space of `A` by using random projections
+with optional power iterations
+
+# Arguments
+- `A::AbstractMatrix`: Input matrix of size m × n
+- `k::Int64`: Target rank for the approximation
+- `p::Int64=5`: Oversampling parameter (default: 5)
+- `q::Int64=2`: Number of power iterations (default: 1)
+
+# Returns
+- `Matrix`: Orthonormal matrix Q of size m × l, where l = min(n, k + p)
+
+# Throws
+- `ArgumentError`: If k > n (number of columns)
+
+# Algorithm
+1. Generate random Gaussian matrix Omega of size n × l
+2. Compute Y = A * Omega
+3. Perform QR decomposition to get orthonormal basis Q
+4. Apply q power iterations to improve accuracy
+5. Return the orthonormal basis Q
+"""
+function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=1)
     m, n = size(A)
     if k > n
         throw(ArgumentError("k should be less than number of columns"))
@@ -24,6 +52,26 @@ function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=2
     return Matrix(Q)
 end
 
+"""
+    randsvd(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=1)
+
+Compute a randomized truncated Singular Value Decomposition (SVD) of matrix `A`.
+
+This function computes an approximate rank-k SVD using randomization, which allows
+for significant performance boost compared to deterministic SVD methods for large
+matrices while also keeping good accuracy
+
+# Arguments
+- `A::AbstractMatrix`: Input matrix of size m × n
+- `k::Int64`: Target rank (number of singular values/vectors to compute)
+- `p::Int64=5`: Oversampling parameter for range finder (default: 5)
+- `q::Int64=1`: Number of power iterations for range finder (default: 1)
+
+# Returns
+- `U`: Left singular vectors, matrix of size m × k
+- `S`: Singular values, vector of length k
+- `Vt`: Right singular vectors (transposed), matrix of size k × n
+"""
 function randsvd(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=1)
     Q = random_range_finder(A, k; p=p, q=q)
     B = Q' * A
@@ -33,11 +81,46 @@ function randsvd(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=1)
     return U[:, 1:k], F.S[1:k], F.Vt[1:k, :]
 end
 
+"""
+    svdk(A, k)
+
+Compute the truncated rank-k Singular Value Decomposition (SVD) using deterministic methods.
+
+This function computes the full SVD and then truncates it to rank k, providing
+the best possible rank-k approximation of the input matrix.
+
+# Arguments
+- `A`: Input matrix
+- `k`: Target rank (number of singular values/vectors to return)
+
+# Returns
+- `U`: Left singular vectors, first k columns
+- `S`: First k singular values
+- `Vt`: Right singular vectors (transposed), first k rows
+
+"""
 function svdk(A, k)
     U, S, V = svd(A)  # Name it V, not Vt!
     return U[:, 1:k], S[1:k], V[:, 1:k]'  # Transpose V to get Vt
 end
 
+"""
+    unit_test_small()
+
+Run a small unit test comparing randomized SVD with deterministic SVD.
+
+This test draws a random 80x60 matrix and computes its rank-10 best approximation
+using both randomised SVD and deterministic SVD. To assess results, it compares 
+Frobenius norm errors of both approximations.
+
+# Returns
+- Named tuple with fields:
+  - `err_rand`: Frobenius norm error of randomized SVD approximation
+  - `err_det`: Frobenius norm error of deterministic SVD approximation
+
+# Notes
+Uses a fixed random seed (1234) for reproducibility.
+"""
 function unit_test_small()
     Random.seed!(1234)
     m, n = 80, 60
@@ -57,6 +140,32 @@ function unit_test_small()
     return (err_rand=err_rand, err_det=err_det)
 end
 
+"""
+    synthetic_experiment(; m=500, n=400, ktrue=20, noise_level=1e-10)
+
+Run a synthetic experiment comparing randomized SVD with deterministic SVD across multiple ranks.
+
+This function generates a synthetic low-rank matrix with specific structure and
+adds noise, then compares the accuracy of deterministic and randomised SVD for
+various target ranks.
+
+# Keyword Arguments
+- `m=500`: Number of rows in the test matrix
+- `n=400`: Number of columns in the test matrix
+- `ktrue=20`: True rank of the underlying low-rank matrix
+- `noise_level=1e-10`: Standard deviation of Gaussian noise added to the matrix
+
+# Returns
+- Vector of named tuples, each containing:
+  - `k`: Target rank used for approximation
+  - `err_rand`: Operator (spectral) norm error of randomized SVD approximation
+  - `err_det`: Operator (spectral) norm error of deterministic SVD approximation
+
+# Notes
+- Uses fixed random seed (42) for reproducibility
+- Tests ranks: [5, 10, 15, 20, 30]
+- Uses oversampling parameter p=10 and q=2 power iterations for randomized SVD
+"""
 function synthetic_experiment(; m=500, n=400, ktrue=20, noise_level=1e-10)
     Random.seed!(42)
     # build low-rank matrix

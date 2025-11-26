@@ -4,6 +4,19 @@ using LinearAlgebra
 using ColorVectorSpace
 include("main.jl")  
 
+"""
+    svd_compress_channel(A, k, solver)
+
+Compress a matrix channel using SVD-based approximation.
+
+# Arguments
+- `A`: Input matrix to compress (typically a color channel)
+- `k`: Target rank for low-rank approximation
+- `solver`: SVD solver function (e.g., svdk, randsvd)
+
+# Returns
+- Reconstructed low-rank approximation of the input matrix
+"""
 function svd_compress_channel(A, k, solver)
     U, S, Vt = solver(A, k)
     return U * Diagonal(S) * Vt
@@ -11,7 +24,9 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
     if length(ARGS) != 2
-        println("Usage input_image rank")
+        println("Usage: julia itest.jl <input_image> <rank>")
+        println("  input_image: Path to the input image file")
+        println("  rank: Target rank for SVD compression (positive integer)")
         exit(1)
     end
 
