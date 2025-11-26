@@ -96,36 +96,36 @@ Below are comparison images showing original images alongside their rank-50 SVD 
 <table>
   <tr>
     <td align="center">
-      <img src="https://i.ibb.co/Fkn3xy27/canyon-svdk-50.jpg?v=1" alt="canyon-svdk-50" border="0" width="400">
+      <img src="./images/canyon_randsvd_50.jpg" alt="canyon-svdk-50" border="0" width="400">
       <br/>
       <em>Figure 1: Canyon - Deterministic Rank-50 Reconstruction</em>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/n8gLqrzB/canyon-randsvd-50.jpg?v=1" alt="canyon-randsvd-50" border="0" width="400">
+      <img src="./images/canyon_svdk_50.jpg" alt="canyon-randsvd-50" border="0" width="400">
       <br/>
       <em>Figure 2: Canyon - Random Rank-50 Reconstruction</em>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://i.ibb.co/v647qG7w/pelican-svdk-50.jpg?v=1" alt="pelican-svdk-50" border="0" width="400">
+      <img src="./images/pelican_randsvd_50.jpg" alt="pelican-svdk-50" border="0" width="400">
       <br/>
       <em>Figure 3: Pelican - Deterministic Rank-50 Reconstruction</em>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/v6zFCH0k/pelican-randsvd-50.jpg?v=1" alt="pelican-randsvd-50" border="0" width="400">
+      <img src="./images/pelican_svdk_50.jpg" alt="pelican-randsvd-50" border="0" width="400">
       <br/>
       <em>Figure 4: Pelican - Random Rank-50 Reconstruction</em>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://i.ibb.co/GfvdFNsS/superkids-svdk-50.jpg?v=1" alt="superkids-svdk-50" border="0" width="400">
+      <img src="./images/superkids_randsvd_50.jpg" alt="superkids-svdk-50" border="0" width="400">
       <br/>
       <em>Figure 5: Kids - Determintic Rank-50 Reconstruction</em>
     </td>
     <td align="center">
-      <img src="https://i.ibb.co/1YqyfYM1/superkids-randsvd-50.jpg?v=1" alt="superkids-randsvd-50" border="0" width="400">
+      <img src="./images/superkids_svdk_50.jpg" alt="superkids-randsvd-50" border="0" width="400">
       <br/>
       <em>Figure 6: Kids - Random Rank-50 Reconstruction</em>
     </td>
