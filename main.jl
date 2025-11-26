@@ -2,7 +2,7 @@ using LinearAlgebra
 using Random
 using Printf
 
-function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=0)
+function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=2)
     m, n = size(A)
     if k > n
         throw(ArgumentError("k should be less than number of columns"))
@@ -15,22 +15,27 @@ function random_range_finder(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=0
 
     ## Power iterations
     for i in 1:q
-        Y_tilda = A' * Q
-        Q_tilda, _ = qr(Y_tilda)
-        Y = A * Q_tilda
+        Y = A' * Q
+        Q, _ = qr(Y)
+        Y = A * Q
         Q, _ = qr(Y)
     end
 
     return Matrix(Q)
 end
 
-function randsvd(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=0)
+function randsvd(A::AbstractMatrix, k::Int64; p::Int64=5, q::Int64=1)
     Q = random_range_finder(A, k; p=p, q=q)
     B = Q' * A
     F = svd(B)
     U = Q * F.U
     # Return only the first k components
     return U[:, 1:k], F.S[1:k], F.Vt[1:k, :]
+end
+
+function svdk(A, k)
+    U, S, V = svd(A)  # Name it V, not Vt!
+    return U[:, 1:k], S[1:k], V[:, 1:k]'  # Transpose V to get Vt
 end
 
 function unit_test_small()
